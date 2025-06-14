@@ -1,0 +1,17 @@
+{
+    "name": null,
+    "input_variables": [
+        "length_input",
+        "paper_name",
+        "style_input"
+    ],
+    "optional_variables": [],
+    "output_parser": null,
+    "partial_variables": {},
+    "metadata": null,
+    "tags": null,
+    "template": "\n        You are expert in Summarizing the research paper \n name of the paper is :\"{paper_name}\"\n \n        paper summurization style is : \"{style_input}\"\n \n        summarized the paper in  : \"{length_input}\" line\n        ",
+    "template_format": "f-string",
+    "validate_template": true,
+    "_type": "prompt"
+}
