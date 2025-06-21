@@ -27,3 +27,9 @@ final_chain = RunnableSequence(prompt1,model,parser,prompt2,model,parser)
 
 result = final_chain.invoke({"topic":"What is AI stablity in ai"})
 print(result)
+
+# here we got the explaination of joke
+
+# we want both joke as well as explaination
+
+# for that we need to implement the runnablepassthrough
