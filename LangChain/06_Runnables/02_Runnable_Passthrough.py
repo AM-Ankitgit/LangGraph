@@ -30,8 +30,8 @@ prompt2 = PromptTemplate(
 # to run  the both prompt in parallel
 from langchain_core.runnables import RunnablePassthrough, RunnableParallel
 parallel_chain = RunnableParallel({
-    "joke":RunnablePassthrough(),
-    "explaination":RunnableSequence(prompt2,model,parser)
+    "joke":RunnablePassthrough(), # we got the joke but in output also got same joke 
+    "explaination":RunnableSequence(prompt2,model,parser) # we got the explaination
 })
 
 
@@ -39,3 +39,62 @@ combine_seq_parallel_chain = RunnableSequence(joke_gen_chain,parallel_chain)
 
 result = combine_seq_parallel_chain.invoke({"topic":"AI"})
 print(result)
+
+combine_seq_parallel_chain.get_graph().print_ascii()
+
+# here we got the result
+# with joke 
+# and explaination
+
+
+#                  +-------------+
+#                  | PromptInput |
+#                  +-------------+
+#                         *
+#                         *
+#                         *
+#                 +----------------+
+#                 | PromptTemplate |
+#                 +----------------+
+#                         *
+#                         *
+#                         *
+#                   +----------+
+#                   | ChatGroq |
+#                   +----------+
+#                         *
+#                         *
+#                         *
+#                +-----------------+
+#                | StrOutputParser |
+#                +-----------------+
+#                         *
+#                         *
+#                         *
+#       +----------------------------------+
+#       | Parallel<joke,explaination>Input |
+#       +----------------------------------+
+#                 ***            ***
+#               **                  ***
+#             **                       **
+# +----------------+                     **
+# | PromptTemplate |                      *
+# +----------------+                      *
+#           *                             *
+#           *                             *
+#           *                             *
+#     +----------+                        *
+#     | ChatGroq |                        *
+#     +----------+                        *
+#           *                             *
+#           *                             *
+#           *                             *
+# +-----------------+             +-------------+
+# | StrOutputParser |             | Passthrough |
+# +-----------------+             +-------------+
+#                 ***            ***
+#                    **        **
+#                      **    **
+#       +-----------------------------------+
+#       | Parallel<joke,explaination>Output |
+#       +-----------------------------------+
